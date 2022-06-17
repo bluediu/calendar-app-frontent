@@ -57,6 +57,7 @@ export const startLogin = ({
   };
 };
 
+/* Register user */
 export const startRegister = ({
   email,
   password,
@@ -65,11 +66,14 @@ export const startRegister = ({
   return async (dispatch) => {
     dispatch(onChecking());
     try {
-      const { data } = await authApi.post('/auth/signin', {
-        email,
-        password,
-        name,
-      });
+      const { data } = await authApi.post<IUserResponse>(
+        '/auth/signin',
+        {
+          email,
+          password,
+          name,
+        }
+      );
 
       localStorage.setItem('token', data.token);
 
@@ -86,6 +90,42 @@ export const startRegister = ({
       setTimeout(() => {
         dispatch(clearErrorMessage());
       }, 10);
+    }
+  };
+};
+
+// Renew Token
+export const startRenewToken = (): AppThunk => {
+  return async (dispatch) => {
+    // Get current token
+    const token = localStorage.getItem('token');
+
+    // No user authenticated
+    if (!token) return dispatch(onLogout(undefined));
+
+    try {
+      // Renew token from api
+      const { data } = await authApi.get<IUserResponse>(
+        'auth/renew',
+        {
+          headers: {
+            'x-token': token,
+          },
+        }
+      );
+
+      // save new token
+      localStorage.setItem('token', data.token);
+
+      localStorage.setItem(
+        'token-init-date',
+        String(new Date().getTime())
+      );
+
+      dispatch(onLogin({ name: data.name, uid: data.uid }));
+    } catch (error) {
+      localStorage.clear();
+      dispatch(onLogout(undefined));
     }
   };
 };

@@ -24,7 +24,10 @@ export const authSlice = createSlice({
       state.errorMessage = undefined;
     },
 
-    onLogout: (state, { payload }) => {
+    onLogout: (
+      state,
+      { payload }: PayloadAction<string | undefined>
+    ) => {
       state.status = 'not-authenticated';
       state.user = {};
       state.errorMessage = payload;
