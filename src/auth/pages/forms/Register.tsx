@@ -6,12 +6,6 @@ import { startRegister } from '../../../context/auth/auth.actions';
 import { useAppDispatch } from '../../../hooks/redux';
 
 export function Register() {
-  /* startRegister({
-          name: registerName,
-          email: registerEmail,
-          password: registerPassword,
-        });*/
-
   const dispatch = useAppDispatch();
 
   const formik = useFormik({
@@ -55,6 +49,11 @@ export function Register() {
             value={formik.values.name}
             onChange={formik.handleChange}
           />
+          {formik.errors.name && (
+            <span className="text-danger">
+              {formik.errors.name}
+            </span>
+          )}
         </div>
         <div className="form-group mb-2">
           <input
@@ -65,6 +64,11 @@ export function Register() {
             value={formik.values.email}
             onChange={formik.handleChange}
           />
+          {formik.errors.email && (
+            <span className="text-danger">
+              {formik.errors.email}
+            </span>
+          )}
         </div>
         <div className="form-group mb-2">
           <input
@@ -75,6 +79,11 @@ export function Register() {
             value={formik.values.password}
             onChange={formik.handleChange}
           />
+          {formik.errors.password && (
+            <span className="text-danger">
+              {formik.errors.password}
+            </span>
+          )}
         </div>
 
         <div className="form-group mb-2">
@@ -86,6 +95,11 @@ export function Register() {
             value={formik.values.repeatPassword}
             onChange={formik.handleChange}
           />
+          {formik.errors.repeatPassword && (
+            <span className="text-danger">
+              {formik.errors.repeatPassword}
+            </span>
+          )}
         </div>
 
         <div className="d-grid gap-2">
