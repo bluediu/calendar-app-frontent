@@ -44,7 +44,6 @@ export const startLogin = ({
         'token-init-date',
         String(new Date().getTime())
       );
-      console.log(data);
 
       dispatch(onLogin({ name: data.name, uid: data.uid }));
     } catch (error) {
