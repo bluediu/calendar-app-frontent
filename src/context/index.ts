@@ -1,5 +1,5 @@
 export * from './auth/auth.slice';
-export * from './calendar/calendarSlice';
-// export * from './ui/uiSlice';
+export * from './calendar/calendar.slice';
+export * from './ui/ui.slice';
 
 export * from './store';

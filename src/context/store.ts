@@ -5,11 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 
 /* Reducers */
-import { authSlice } from './index';
+import { authSlice, uiSlice, calendarSlice } from './index';
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    ui: uiSlice.reducer,
+    calendar: calendarSlice.reducer,
   },
 });
 
