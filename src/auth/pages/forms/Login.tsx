@@ -12,9 +12,11 @@ export const Login = () => {
     initialValues: initialValues(),
     validationSchema: Yup.object({
       email: Yup.string()
-        .email('Invalida email')
-        .required('email is required'),
-      password: Yup.string().required('Password is required'),
+        .email('El correo es invalido')
+        .required('El correo es necesario'),
+      password: Yup.string().required(
+        'La contraseña es necesario'
+      ),
     }),
     onSubmit: async ({ email, password }) => {
       dispatch(startLogin({ email, password }));
@@ -23,13 +25,13 @@ export const Login = () => {
 
   return (
     <>
-      <h3>Log In</h3>
+      <h3>Iniciar sección</h3>
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group mb-2">
           <input
             type="text"
             className="form-control"
-            placeholder="Email.."
+            placeholder="Correo electrónico"
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -45,7 +47,7 @@ export const Login = () => {
           <input
             type="password"
             className="form-control"
-            placeholder="Password..."
+            placeholder="Contraseña"
             name="password"
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -61,7 +63,7 @@ export const Login = () => {
           <input
             type="submit"
             className="btnSubmit"
-            value="Login"
+            value="Iniciar sección"
           />
         </div>
       </form>

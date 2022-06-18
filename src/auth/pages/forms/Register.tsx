@@ -12,22 +12,22 @@ export function Register() {
     initialValues: initialValues(),
     validationSchema: Yup.object({
       name: Yup.string()
-        .matches(/^[a-zA-Z0-9-]*$/, 'Username cannot have blank')
-        .required('Name is required'),
+        .matches(/^[a-zA-Z0-9-]*$/, 'Formato no valido')
+        .required('El nombre es necesario'),
       email: Yup.string()
-        .email('Email is not valid')
-        .required('Email is required'),
+        .email('El correo no es valido')
+        .required('El correo es necesario'),
       password: Yup.string()
-        .required('Password is required')
+        .required('La contraseña es necesaria')
         .oneOf(
           [Yup.ref('repeatPassword')],
-          'Passwords are not the same'
+          'Las contraseñas no son iguales'
         ),
       repeatPassword: Yup.string()
-        .required('Password is required')
+        .required('La contraseña es necesaria')
         .oneOf(
           [Yup.ref('password')],
-          'Passwords are not the same'
+          'Las contraseña no son iguales'
         ),
     }),
     onSubmit: async ({ email, name, password }) => {
@@ -37,14 +37,14 @@ export function Register() {
 
   return (
     <>
-      <h3>Sign In</h3>
+      <h3>Regístrate</h3>
 
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group mb-2">
           <input
             type="text"
             className="form-control"
-            placeholder="Your name"
+            placeholder="Nombre"
             name="name"
             value={formik.values.name}
             onChange={formik.handleChange}
@@ -59,7 +59,7 @@ export function Register() {
           <input
             type="email"
             className="form-control"
-            placeholder="Your email"
+            placeholder="Correo electrónico"
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -74,7 +74,7 @@ export function Register() {
           <input
             type="password"
             className="form-control"
-            placeholder="Password"
+            placeholder="Contraseña"
             name="password"
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -90,7 +90,7 @@ export function Register() {
           <input
             type="password"
             className="form-control"
-            placeholder="Repead your password"
+            placeholder="Repite tu contraseña"
             name="repeatPassword"
             value={formik.values.repeatPassword}
             onChange={formik.handleChange}
@@ -106,7 +106,7 @@ export function Register() {
           <input
             type="submit"
             className="btnSubmit"
-            value="Create account"
+            value="Crear una cuenta"
           />
         </div>
       </form>
