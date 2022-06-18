@@ -88,7 +88,7 @@ export const startSavingEvent = (
       console.error(error);
       Swal.fire(
         'Error al guardar',
-        'Upps!, Algo salio',
+        'Upps!, Algo salio o no tienes permiso para modificar estos datos',
         'error'
       );
     }

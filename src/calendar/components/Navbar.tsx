@@ -1,4 +1,9 @@
+import { startLogout } from '../../context/auth/auth.actions';
+import { useAppDispatch } from '../../hooks/redux';
+
 export const Navbar = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <div className="navbar navbar-dark bg-dark mb-4 px-4">
       <span className="navbar-brand">
@@ -6,7 +11,12 @@ export const Navbar = () => {
         &nbsp; Josue
       </span>
 
-      <button className="btn btn-outline-danger">
+      <button
+        className="btn btn-outline-danger"
+        onClick={() => {
+          dispatch(startLogout());
+        }}
+      >
         <i className="fas fa-sign-out-alt"></i>
         &nbsp;
         <span>Salir</span>

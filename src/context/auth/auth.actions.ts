@@ -10,6 +10,8 @@ import {
   onLogout,
   clearErrorMessage,
 } from './auth.slice';
+import { onLogoutCalendar } from '../calendar/calendar.slice';
+import Swal from 'sweetalert2';
 
 /* Interfaces */
 interface ILogInProps {
@@ -47,6 +49,11 @@ export const startLogin = ({
 
       dispatch(onLogin({ name: data.name, _id: data.uid }));
     } catch (error) {
+      Swal.fire(
+        'Error al iniciar sección',
+        'Correo o contraseña incorrectos',
+        'error'
+      );
       dispatch(onLogout('Invalid credentials'));
 
       setTimeout(() => {
@@ -83,6 +90,11 @@ export const startRegister = ({
 
       dispatch(onLogin({ name: data.name, _id: data.uid }));
     } catch (error) {
+      Swal.fire(
+        'No se pudo crear la cuenta',
+        'Por favor hable con el admistrador o intentelo más tarde',
+        'error'
+      );
       dispatch(
         onLogout('The register failed, please try later')
       );
@@ -126,5 +138,14 @@ export const startRenewToken = (): AppThunk => {
       localStorage.clear();
       dispatch(onLogout(undefined));
     }
+  };
+};
+
+// Log Out
+export const startLogout = (): AppThunk => {
+  return (dispatch) => {
+    localStorage.clear();
+    dispatch(onLogoutCalendar());
+    dispatch(onLogout());
   };
 };
