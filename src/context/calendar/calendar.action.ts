@@ -8,7 +8,11 @@ import {
 } from '../../interfaces';
 import { IAuthUser } from '../types/auth.types';
 
-import { onLoadEvents, onAddNewEvent } from './calendar.slice';
+import {
+  onLoadEvents,
+  onAddNewEvent,
+  onUpdateEvent,
+} from './calendar.slice';
 
 /* == GET == */
 export const startLoadingEvents = (): AppThunk => {
@@ -48,15 +52,22 @@ export const startSavingEvent = (
     const { _id } = user;
 
     try {
-      /* if (calendarEvent.id) {
-        // Actualizando
+      console.log(calendarEvent);
+
+      /* If the event has an Id it is a event created, therefore it is needed update */
+      if (calendarEvent.id) {
+        // Updating
         await calendarApi.put(
           `/events/${calendarEvent.id}`,
           calendarEvent
         );
-        dispatch(onAddNewEvent({ ...calendarEvent, user }));
-        return;
-      } */
+
+        return dispatch(
+          onUpdateEvent({ ...calendarEvent, user })
+        );
+      }
+
+      console.log('CREANDO');
 
       // Create new event & save in database
       const newEventData = { ...calendarEvent, user: _id };
@@ -83,3 +94,6 @@ export const startSavingEvent = (
     }
   };
 };
+
+// BORRAR Y ACTUALIZAR
+/* API: {{url}}/api/events/62aa8f8fa60118e51c051798 */

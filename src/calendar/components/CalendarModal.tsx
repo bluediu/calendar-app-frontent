@@ -33,14 +33,23 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
+/* Types */
+type TypeInputChanged =
+  | React.ChangeEvent<HTMLInputElement>
+  | React.ChangeEvent<HTMLTextAreaElement>;
+
 export const CalendarModal = () => {
+  const dispatch = useAppDispatch();
+
+  /* Get data from store */
   const { isDateModalOpen } = useAppSelector(
     (state) => state.ui
   );
-  const dispatch = useAppDispatch();
+  const { activeEvent } = useAppSelector(
+    (state) => state.calendar
+  );
 
-  // const { activeEvent, startSavingEvent } = useCalendarStore();
-
+  /* Local states */
   const [formSubmitted, setFormSubmitted] =
     useState<boolean>(false);
 
@@ -57,13 +66,13 @@ export const CalendarModal = () => {
     return formValues.title.length > 0 ? '' : 'is-invalid';
   }, [formValues.title, formSubmitted]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (activeEvent !== null) {
       setFormValues({ ...activeEvent });
     }
-  }, [activeEvent]); */
+  }, [activeEvent]);
 
-  const onInputChanged = ({ target }: any) => {
+  const onInputChanged = ({ target }: TypeInputChanged) => {
     setFormValues({
       ...formValues,
       [target.name]: target.value,
@@ -84,8 +93,9 @@ export const CalendarModal = () => {
     dispatch(onCloseDateModal());
   };
 
-  const onSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  /* Create or update an event */
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     setFormSubmitted(true);
 
@@ -104,8 +114,7 @@ export const CalendarModal = () => {
     }
 
     if (formValues.title.length <= 0) return;
-
-    // TODO:
+    console.log(formValues);
 
     dispatch(startSavingEvent(formValues));
     dispatch(onCloseDateModal());
@@ -157,9 +166,9 @@ export const CalendarModal = () => {
             type="text"
             className={`form-control ${titleClass}`}
             placeholder="Título del evento"
-            name="title"
             autoComplete="off"
             value={formValues.title}
+            name="title"
             onChange={onInputChanged}
           />
           <small id="emailHelp" className="form-text text-muted">
@@ -172,8 +181,8 @@ export const CalendarModal = () => {
             className="form-control"
             placeholder="Notas"
             rows={5}
-            name="notes"
             value={formValues.notes}
+            name="notes"
             onChange={onInputChanged}
             style={{ resize: 'none' }}
           ></textarea>

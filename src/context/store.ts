@@ -13,6 +13,7 @@ const store = configureStore({
     ui: uiSlice.reducer,
     calendar: calendarSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default store;

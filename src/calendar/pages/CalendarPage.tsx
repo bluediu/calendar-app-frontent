@@ -12,7 +12,6 @@ import {
 
 /* Calendar Components */
 import { Calendar, View } from 'react-big-calendar';
-
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 /* Redux */
@@ -22,12 +21,22 @@ import {
 } from '../../hooks/redux';
 import { IEvent } from '../../interfaces';
 import { startLoadingEvents } from '../../context/calendar/calendar.action';
+import { IAuthUser } from '../../context/types/auth.types';
+import {
+  onOpenDateModal,
+  onSetActiveEvent,
+} from '../../context';
 
 const lastViewLS = localStorage.getItem('lastView') as View;
 
 export const CalendarPage = () => {
   const dispatch = useAppDispatch();
+
+  /* Get data from store */
   const { events } = useAppSelector((state) => state.calendar);
+  const user = useAppSelector(
+    (state) => state.auth.user
+  ) as IAuthUser;
 
   const [lastView, setLastView] = useState<View>(
     lastViewLS || 'week'
@@ -35,22 +44,18 @@ export const CalendarPage = () => {
 
   /* === UI ACTIONS === */
 
-  /*
-   event: IEvent,
-    start: Date,
-    end: Date,
-    isSelected: boolean
-  */
+  /* Set events colors  */
   const eventStyleGetter = (
     event: IEvent,
     start: Date,
     end: Date,
     isSelected: boolean
   ) => {
-    // const isMyEvent = ( user.uid === event.user._id ) || ( user.uid === event.user.uid );
+    const isMyEvent =
+      user._id === event.user._id || user._id === event.user._id;
 
     const style = {
-      backgroundColor: /* isMyEvent ? '#347CF7' :  */ '#465660',
+      backgroundColor: isMyEvent ? '#347CF7' : '#465660',
       borderRadius: '0px',
       opacity: 0.8,
       color: 'white',
@@ -61,14 +66,13 @@ export const CalendarPage = () => {
     };
   };
 
-  const onDoubleClick = (e: any) => {
-    // console.log({ doubleClick: event });
-    // openDateModal();
+  /* Calendar events */
+  const onDoubleClick = (_e: IEvent) => {
+    dispatch(onOpenDateModal());
   };
 
-  const onSelect = (e: any) => {
-    // console.log({ click: event });
-    // setActiveEvent( event );
+  const onSelect = (e: IEvent) => {
+    dispatch(onSetActiveEvent(e));
   };
 
   const onViewChanged = (e: any) => {

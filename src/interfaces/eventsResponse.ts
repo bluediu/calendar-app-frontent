@@ -20,7 +20,7 @@ export interface IEvent {
 }
 
 export interface IActiveEvent extends IEvent {
-  bgColor: string;
+  bgColor?: string;
 }
 
 export interface IUser {

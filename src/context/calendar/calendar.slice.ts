@@ -31,6 +31,19 @@ export const calendarSlice = createSlice({
       state.activeEvent = null;
     },
 
+    onUpdateEvent: (
+      state,
+      { payload }: PayloadAction<IEvent>
+    ) => {
+      state.events = state.events.map((event) => {
+        if (event.id === payload.id) {
+          return payload;
+        }
+
+        return event;
+      });
+    },
+
     onSetActiveEvent: (
       state,
       { payload }: PayloadAction<IActiveEvent>
@@ -40,5 +53,9 @@ export const calendarSlice = createSlice({
   },
 });
 
-export const { onLoadEvents, onSetActiveEvent, onAddNewEvent } =
-  calendarSlice.actions;
+export const {
+  onLoadEvents,
+  onSetActiveEvent,
+  onAddNewEvent,
+  onUpdateEvent,
+} = calendarSlice.actions;
