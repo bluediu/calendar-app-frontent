@@ -45,7 +45,7 @@ export const startLogin = ({
         String(new Date().getTime())
       );
 
-      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      dispatch(onLogin({ name: data.name, _id: data.uid }));
     } catch (error) {
       dispatch(onLogout('Invalid credentials'));
 
@@ -81,7 +81,7 @@ export const startRegister = ({
         String(new Date().getTime())
       );
 
-      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      dispatch(onLogin({ name: data.name, _id: data.uid }));
     } catch (error) {
       dispatch(
         onLogout('The register failed, please try later')
@@ -121,7 +121,7 @@ export const startRenewToken = (): AppThunk => {
         String(new Date().getTime())
       );
 
-      dispatch(onLogin({ name: data.name, uid: data.uid }));
+      dispatch(onLogin({ name: data.name, _id: data.uid }));
     } catch (error) {
       localStorage.clear();
       dispatch(onLogout(undefined));

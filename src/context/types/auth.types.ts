@@ -6,5 +6,5 @@ export interface IAuthState {
 
 export interface IAuthUser {
   name: string;
-  uid: string;
+  _id: string;
 }

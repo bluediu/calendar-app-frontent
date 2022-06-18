@@ -15,6 +15,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../hooks/redux';
+import { startSavingEvent } from '../../context/calendar/calendar.action';
 // import { useCalendarStore, useUiStore } from '../../hooks';
 
 registerLocale('es', es);
@@ -104,11 +105,10 @@ export const CalendarModal = () => {
 
     if (formValues.title.length <= 0) return;
 
-    console.log(formValues);
-
     // TODO:
-    // await startSavingEvent(formValues);
-    onCloseDateModal();
+
+    dispatch(startSavingEvent(formValues));
+    dispatch(onCloseDateModal());
     setFormSubmitted(false);
   };
 
