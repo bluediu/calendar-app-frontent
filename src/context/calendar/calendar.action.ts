@@ -5,6 +5,7 @@ import { convertEventsToDateEvents } from '../../helpers';
 import {
   IEventsResponse,
   IEventResponse,
+  IActiveEvent,
 } from '../../interfaces';
 import { IAuthUser } from '../types/auth.types';
 
@@ -12,6 +13,7 @@ import {
   onLoadEvents,
   onAddNewEvent,
   onUpdateEvent,
+  onDeleteEvent,
 } from './calendar.slice';
 
 /* == GET == */
@@ -23,7 +25,7 @@ export const startLoadingEvents = (): AppThunk => {
       );
 
       const events = convertEventsToDateEvents(data.events);
-
+      console.log('EVENTOS', events);
       dispath(onLoadEvents(events));
     } catch (error) {
       console.log('Error cargando eventos');
@@ -52,8 +54,6 @@ export const startSavingEvent = (
     const { _id } = user;
 
     try {
-      console.log(calendarEvent);
-
       /* If the event has an Id it is a event created, therefore it is needed update */
       if (calendarEvent.id) {
         // Updating
@@ -89,6 +89,25 @@ export const startSavingEvent = (
       Swal.fire(
         'Error al guardar',
         'Upps!, Algo salio o no tienes permiso para modificar estos datos',
+        'error'
+      );
+    }
+  };
+};
+
+export const startDeletingEvent = (): AppThunk => {
+  return async (dispatch, getState) => {
+    const { id } = getState().calendar
+      .activeEvent as IActiveEvent;
+
+    try {
+      await calendarApi.delete(`/events/${id}`);
+      dispatch(onDeleteEvent());
+    } catch (error) {
+      console.log(error);
+      Swal.fire(
+        'Error al eliminar',
+        'No se pudo borrar el evento',
         'error'
       );
     }

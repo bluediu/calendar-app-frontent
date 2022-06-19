@@ -1,8 +1,8 @@
-export const CalendarEvent = () => {
+export const CalendarEvent = ({ event }: any) => {
   return (
     <>
-      <strong>Aprender Next.js</strong>
-      <span> - Josue</span>
+      <strong>{event.title}</strong>
+      <span> - {event.user.name}</span>
     </>
   );
 };

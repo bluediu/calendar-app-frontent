@@ -10,7 +10,10 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import es from 'date-fns/locale/es';
-import { onCloseDateModal } from '../../context';
+import {
+  onCleanActiveEvent,
+  onCloseDateModal,
+} from '../../context';
 import {
   useAppDispatch,
   useAppSelector,
@@ -91,6 +94,7 @@ export const CalendarModal = () => {
 
   const onCloseModal = () => {
     dispatch(onCloseDateModal());
+    dispatch(onCleanActiveEvent());
   };
 
   /* Create or update an event */
@@ -114,7 +118,6 @@ export const CalendarModal = () => {
     }
 
     if (formValues.title.length <= 0) return;
-    console.log(formValues);
 
     dispatch(startSavingEvent(formValues));
     dispatch(onCloseDateModal());

@@ -19,13 +19,13 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../hooks/redux';
-import { IEvent } from '../../interfaces';
 import { startLoadingEvents } from '../../context/calendar/calendar.action';
-import { IAuthUser } from '../../context/types/auth.types';
 import {
   onOpenDateModal,
   onSetActiveEvent,
 } from '../../context';
+import { IEvent } from '../../interfaces';
+import { IAuthUser } from '../../context/types/auth.types';
 
 const lastViewLS = localStorage.getItem('lastView') as View;
 
