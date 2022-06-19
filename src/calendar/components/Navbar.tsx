@@ -1,5 +1,6 @@
-import { startLogout } from '../../context/auth/auth.actions';
 import { useAppDispatch } from '../../hooks/redux';
+
+import { startLogout } from '../../context/auth/auth.actions';
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();

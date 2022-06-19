@@ -1,8 +1,10 @@
 import { addHours } from 'date-fns';
+
 import {
   onOpenDateModal,
   onSetActiveEvent,
 } from '../../context';
+
 import { useAppDispatch } from '../../hooks/redux';
 
 export const AddNew = () => {

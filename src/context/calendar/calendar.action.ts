@@ -1,20 +1,24 @@
-import Swal from 'sweetalert2';
 import { AppThunk } from '..';
+
 import { calendarApi } from '../../api';
+
+/* Libraries */
+import Swal from 'sweetalert2';
 import { convertEventsToDateEvents } from '../../helpers';
+
+/* Redux */
 import {
   IEventsResponse,
   IEventResponse,
   IActiveEvent,
 } from '../../interfaces';
-import { IAuthUser } from '../types/auth.types';
-
 import {
   onLoadEvents,
   onAddNewEvent,
   onUpdateEvent,
   onDeleteEvent,
 } from './calendar.slice';
+import { IAuthUser } from '../types/auth.types';
 
 /* == GET == */
 export const startLoadingEvents = (): AppThunk => {
@@ -113,6 +117,3 @@ export const startDeletingEvent = (): AppThunk => {
     }
   };
 };
-
-// BORRAR Y ACTUALIZAR
-/* API: {{url}}/api/events/62aa8f8fa60118e51c051798 */

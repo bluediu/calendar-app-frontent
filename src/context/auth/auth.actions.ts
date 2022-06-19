@@ -1,9 +1,8 @@
+import Swal from 'sweetalert2';
 import { AppThunk } from '../store';
-
 import { authApi } from '../../api';
 
-import { IUserResponse } from '../../interfaces';
-
+/* Context */
 import {
   onChecking,
   onLogin,
@@ -11,9 +10,10 @@ import {
   clearErrorMessage,
 } from './auth.slice';
 import { onLogoutCalendar } from '../calendar/calendar.slice';
-import Swal from 'sweetalert2';
 
 /* Interfaces */
+import { IUserResponse } from '../../interfaces';
+
 interface ILogInProps {
   email: string;
   password: string;
