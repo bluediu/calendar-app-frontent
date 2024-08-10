@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import { useFormik } from 'formik';
 
-export const SignIn = ({ isPending }: { isPending: boolean }) => {
+export const SignIn = () => {
   const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: { name: '', email: '', password: '', repeatPassword: '' },
     validationSchema: Yup.object({
@@ -85,11 +85,7 @@ export const SignIn = ({ isPending }: { isPending: boolean }) => {
         </section>
 
         <div className="d-grid gap-2">
-          <button
-            type="submit"
-            className={`btn-submit mx-0 ${isPending && 'btn-disabled'}`}
-            disabled={isPending}
-          >
+          <button type="submit" className="btn-submit mx-0">
             Next
           </button>
         </div>

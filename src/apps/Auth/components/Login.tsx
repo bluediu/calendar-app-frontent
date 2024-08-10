@@ -8,7 +8,7 @@ import { startLogin } from '../context';
 /* Hooks */
 import { useAppDispatch } from '../../../hooks';
 
-export const Login = ({ isPending }: { isPending: boolean }) => {
+export const Login = () => {
   const dispatch = useAppDispatch();
 
   const { values, errors, handleSubmit, handleChange } = useFormik({
@@ -59,11 +59,7 @@ export const Login = ({ isPending }: { isPending: boolean }) => {
         </section>
 
         <div className="d-grid gap-2">
-          <button
-            type="submit"
-            className={`btn-submit mx-0 ${isPending && 'btn-disabled'}`}
-            disabled={isPending}
-          >
+          <button type="submit" className="btn-submit mx-0">
             Next
           </button>
         </div>
