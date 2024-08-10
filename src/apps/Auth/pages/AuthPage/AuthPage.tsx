@@ -1,3 +1,6 @@
+/* Components */
+import { Login, SignIn } from '../../components';
+
 import './AuthPage.css';
 
 export const AuthPage = () => {
@@ -5,11 +8,11 @@ export const AuthPage = () => {
     <main className="container login-container">
       <article className="row">
         <section className="col-md-6 login-form-1">
-          <h2>LOGIN</h2>
+          <Login />
         </section>
 
         <section className="col-md-6 login-form-2">
-          <h2>REGISTER</h2>
+          <SignIn />
         </section>
       </article>
     </main>

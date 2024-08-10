@@ -26,7 +26,6 @@ export const Login = () => {
           <input
             type="text"
             className={`form-control ${errors.email && 'is-invalid'}`}
-            // is-invalid
             placeholder="Email address"
             name="email"
             value={values.email}
