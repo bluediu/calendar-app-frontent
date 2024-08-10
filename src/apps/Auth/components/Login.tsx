@@ -1,19 +1,29 @@
+/* Forms */
 import * as Yup from 'yup';
-
 import { useFormik } from 'formik';
 
-export const Login = () => {
+/* Context */
+import { startLogin } from '../context';
+
+/* Hooks */
+import { useAppDispatch } from '../../../hooks';
+
+export const Login = ({ isPending }: { isPending: boolean }) => {
+  const dispatch = useAppDispatch();
+
   const { values, errors, handleSubmit, handleChange } = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: {
+      email: 'josuerivas@gmail.com',
+      password: 'kernel@panic2311s',
+    },
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Invalid email format')
         .required('Email is required'),
       password: Yup.string().required('Password is required').min(6),
     }),
-    onSubmit: (values) => {
-      //handle form submission
-      console.log(values);
+    onSubmit: ({ email, password }) => {
+      dispatch(startLogin({ email, password }));
     },
   });
 
@@ -49,7 +59,13 @@ export const Login = () => {
         </section>
 
         <div className="d-grid gap-2">
-          <input type="submit" className="btn-submit mx-0" value="Next" />
+          <button
+            type="submit"
+            className={`btn-submit mx-0 ${isPending && 'btn-disabled'}`}
+            disabled={isPending}
+          >
+            Next
+          </button>
         </div>
       </form>
     </article>
