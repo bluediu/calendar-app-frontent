@@ -1,6 +1,7 @@
 type IStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
 export interface IAuthState {
+  isPending: boolean;
   user: IAuthUser | Record<string, never>;
   status: IStatus;
   errorMessage?: string;

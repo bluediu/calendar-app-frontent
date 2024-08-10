@@ -50,6 +50,11 @@
   background-color: #333333;
 }
 
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .login-form-2 .btn-submit {
   background-color: #fff;
   color: #333333;
