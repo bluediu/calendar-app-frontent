@@ -18,10 +18,11 @@ import { ILogin, IUser } from '../../interfaces';
 import { fn } from '../../../../utils';
 
 const TOKEN = 'x-token';
+const TOKEN_INIT = 'x-token-init-date';
 
 const _saveToken = (token: string): void => {
   localStorage.setItem(TOKEN, token);
-  localStorage.setItem('token-init-date', new Date().getTime().toString());
+  localStorage.setItem(TOKEN_INIT, new Date().getTime().toString());
 };
 
 export const startLogin = (props: ILogin): AppThunk => {
@@ -60,5 +61,13 @@ export const startRenewToken = () => {
         dispatch(onLogout('Invalid credentials'));
       }
     }
+  };
+};
+
+export const startLogout = (): AppThunk => {
+  return (dispatch: Dispatch) => {
+    localStorage.removeItem(TOKEN);
+    localStorage.removeItem(TOKEN_INIT);
+    dispatch(onLogout());
   };
 };
