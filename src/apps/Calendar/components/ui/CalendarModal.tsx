@@ -1,14 +1,28 @@
+import { useEffect, useState } from 'react';
+
+/* Libs */
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
+import { addHours, differenceInSeconds, differenceInDays } from 'date-fns';
+
+/* Components */
+import Modal from 'react-modal';
+import DatePicker from 'react-datepicker';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+
+/* Hooks */
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 
-import Modal from 'react-modal';
-import { calendarActions as calendar, uiActions as ui } from '../../context';
-import { useEffect, useState } from 'react';
-import { addHours, differenceInSeconds, differenceInDays } from 'date-fns';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import DatePicker from 'react-datepicker';
+import {
+  // Slice
+  calendarActions as calendar,
+  uiActions as ui,
+
+  // Actions
+  startActionEvent,
+} from '../../context';
+
 import './CalendarModal.css';
-import Swal from 'sweetalert2';
 
 const customStyles = {
   content: {
@@ -31,8 +45,8 @@ const validationSchema = Yup.object({
 interface IValues {
   title: string;
   notes: string;
-  start: Date | string;
-  end: Date | string;
+  start: Date;
+  end: Date;
 }
 
 interface IOnSubmit {
@@ -80,6 +94,8 @@ export const CalendarModal = () => {
       return;
     }
 
+    dispatch(startActionEvent(values));
+    dispatch(ui.onCloseDateModal());
     setSubmitting(false);
   };
 
@@ -138,7 +154,7 @@ export const CalendarModal = () => {
                 Since date/time
               </label>
               <DatePicker
-                selected={values.start as Date}
+                selected={values.start}
                 onChange={(date) => setFieldValue('start', date)}
                 className="form-control"
                 dateFormat="Pp"
@@ -156,7 +172,7 @@ export const CalendarModal = () => {
                 Until date/time
               </label>
               <DatePicker
-                selected={values.end as Date}
+                selected={values.end}
                 onChange={(date) => setFieldValue('end', date)}
                 className="form-control"
                 dateFormat="Pp"
