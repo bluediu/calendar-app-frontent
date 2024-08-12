@@ -1,4 +1,3 @@
 export * from './Event';
-export * from './Navbar';
-export * from './AddEvent';
-export * from './RemoveEvent';
+export * from './buttons';
+export * from './ui';

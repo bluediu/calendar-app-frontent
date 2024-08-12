@@ -1,5 +1,7 @@
-/* Interfaces */
-import { IUser } from '../../Auth/interfaces';
+interface IUserInEvent {
+  _id: string;
+  name: string;
+}
 
 export interface IEvent {
   id?: string;
@@ -7,7 +9,7 @@ export interface IEvent {
   notes: string;
   start: Date;
   end: Date;
-  user: IUser;
+  user: IUserInEvent;
 }
 
 export interface IEventsResponse {

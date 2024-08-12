@@ -1,8 +1,8 @@
 /* Context */
-import { startLogout } from '../../Auth/context';
+import { startLogout } from '../../../Auth/context';
 
 /* Hooks */
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../../hooks';
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
