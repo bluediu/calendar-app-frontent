@@ -13,8 +13,8 @@ export const Login = () => {
 
   const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      email: 'josuerivas@gmail.com',
-      password: 'kernel@panic2311s',
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -34,7 +34,7 @@ export const Login = () => {
       <form onSubmit={handleSubmit}>
         <section className="form-group mb-2">
           <input
-            type="text"
+            type="email"
             className={`form-control ${errors.email && 'is-invalid'}`}
             placeholder="Email address"
             name="email"
@@ -46,7 +46,7 @@ export const Login = () => {
 
         <section className="form-group mb-2">
           <input
-            type="text"
+            type="password"
             className={`form-control ${errors.password && 'is-invalid'}`}
             placeholder="Password"
             name="password"

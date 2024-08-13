@@ -1,8 +1,18 @@
+// TODO: Fix properties inconsistencies
 export interface IUser {
   ok: boolean;
   uid: string;
   name: string;
   token: string;
+}
+
+export interface ISignInResponse {
+  token: string;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+  };
 }
 
 export interface ILogin {
@@ -11,5 +21,5 @@ export interface ILogin {
 }
 
 export interface IRegister extends ILogin {
-  password: string;
+  name: string;
 }

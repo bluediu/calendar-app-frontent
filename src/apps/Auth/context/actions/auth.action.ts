@@ -12,7 +12,7 @@ import { AppThunk } from '../../../../context/store';
 import { authApi } from '../../api';
 
 /* Interfaces */
-import { ILogin, IUser } from '../../interfaces';
+import { ILogin, IRegister, ISignInResponse, IUser } from '../../interfaces';
 
 /* Utils */
 import { fn } from '../../../../utils';
@@ -31,8 +31,27 @@ export const startLogin = (props: ILogin): AppThunk => {
     try {
       const { data } = await authApi.post<IUser>('/login', props);
       _saveToken(data.token);
+      console.log(data);
 
       dispatch(onLogin({ _id: data.uid, name: data.name }));
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        fn.showError(err.response!);
+        dispatch(onLogout('Invalid credentials'));
+      }
+    }
+  };
+};
+
+export const startSignIn = (props: IRegister) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(onChecking());
+    try {
+      const { data } = await authApi.post<ISignInResponse>('/signin', props);
+      _saveToken(data.token);
+
+      const { _id, name } = data.user;
+      dispatch(onLogin({ _id, name }));
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         fn.showError(err.response!);

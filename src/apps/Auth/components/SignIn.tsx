@@ -1,8 +1,15 @@
 import * as Yup from 'yup';
 
+/* Context */
+import { startSignIn } from '../context';
+
+/* Hooks */
 import { useFormik } from 'formik';
+import { useAppDispatch } from '../../../hooks';
 
 export const SignIn = () => {
+  const dispatch = useAppDispatch();
+
   const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: { name: '', email: '', password: '', repeatPassword: '' },
     validationSchema: Yup.object({
@@ -22,8 +29,13 @@ export const SignIn = () => {
         .oneOf([Yup.ref('password')], 'Passwords are not the same'),
     }),
     onSubmit: (values) => {
-      //handle form submission
-      console.log(values);
+      dispatch(
+        startSignIn({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+      );
     },
   });
 
@@ -46,7 +58,7 @@ export const SignIn = () => {
 
         <section className="form-group mb-2">
           <input
-            type="text"
+            type="email"
             className={`form-control ${errors.email && 'is-invalid'}`}
             placeholder="Email address"
             name="email"
@@ -58,7 +70,7 @@ export const SignIn = () => {
 
         <section className="form-group mb-2">
           <input
-            type="text"
+            type="password"
             className={`form-control ${errors.password && 'is-invalid'}`}
             placeholder="Password"
             name="password"
@@ -72,7 +84,7 @@ export const SignIn = () => {
 
         <section className="form-group mb-2">
           <input
-            type="text"
+            type="password"
             className={`form-control ${errors.repeatPassword && 'is-invalid'}`}
             placeholder="Repeat password"
             name="repeatPassword"
