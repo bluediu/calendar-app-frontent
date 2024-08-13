@@ -1,9 +1,11 @@
-import { localizer } from '../helpers';
+import { useEffect, useState } from 'react';
+
+/* Context */
+import { calendarActions, startLoadingEvents, uiActions } from '../context';
 
 /* Components */
-import { Calendar, Event, View } from 'react-big-calendar';
-
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { CalendarModal } from '../components/ui';
+import { Calendar, View } from 'react-big-calendar';
 
 import {
   AddEvent,
@@ -11,18 +13,34 @@ import {
   Navbar,
   Event as CalendarEvent,
 } from '../components';
+
+/* Hooks */
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+
+/* Interfaces */
 import { IEvent } from '../interfaces';
 
+/* Helpers */
+import { localizer } from '../helpers';
+
+const lastViewLS = localStorage.getItem('lastViewLS') as View;
+
 export const CalendarPage = () => {
+  const dispatch = useAppDispatch();
+
+  const { events } = useAppSelector((state) => state.calendar);
+  const user = useAppSelector((state) => state.auth.user);
+
+  const [lastView, setLastView] = useState<View>(lastViewLS || 'week');
+
+  useEffect(() => {
+    dispatch(startLoadingEvents());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /* Set event colors  */
-  const eventStyleGetter = (
-    event: IEvent
-    // start: Date,
-    // end: Date,
-    // isSelected: boolean
-  ) => {
-    const isMyEvent: boolean = true;
-    // user?._id === event.user?._id || user?._id === event.user?._id;
+  const eventStyleGetter = (event: IEvent) => {
+    const isMyEvent: boolean = user?._id === event.user?._id;
 
     const style = {
       backgroundColor: isMyEvent ? '#347CF7' : '#465660',
@@ -36,21 +54,38 @@ export const CalendarPage = () => {
     };
   };
 
+  /* Calendar events */
+  const onDoubleClick = () => {
+    dispatch(uiActions.onOpenDateModal());
+  };
+
+  const onSelect = (e: IEvent) => {
+    dispatch(calendarActions.onSetActiveEvent(e));
+  };
+
+  const onViewChange = (e: View) => {
+    localStorage.setItem('lastViewLS', e);
+    setLastView(e);
+  };
+
   return (
     <>
       <Navbar />
       <Calendar
         culture="English"
         localizer={localizer}
-        events={[]}
-        // defaultView={}
+        events={events}
+        defaultView={lastView}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 'calc( 100vh - 80px )' }}
-        // messages={getMessagesES()}
         components={{ event: CalendarEvent }}
         eventPropGetter={(event: IEvent) => eventStyleGetter(event)}
+        onDoubleClickEvent={onDoubleClick}
+        onSelectEvent={onSelect}
+        onView={onViewChange}
       />
+      <CalendarModal />
       <AddEvent />
       <RemoveEvent />
     </>
