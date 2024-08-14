@@ -12,7 +12,12 @@ import calendarApi from '../../api/api';
 import { AppThunk } from '../../../../context/store';
 
 /* Interfaces */
-import { IEvent, IEventResponse, IEventsResponse } from '../../interfaces';
+import {
+  IActiveEvent,
+  IEvent,
+  IEventResponse,
+  IEventsResponse,
+} from '../../interfaces';
 
 /* Types */
 import { IAuthUser } from '../../../Auth/types';
@@ -67,6 +72,21 @@ export const startActionEvent = (event: Omit<IEvent, 'user'>): AppThunk => {
           user,
         })
       );
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        fn.showError(err.response!);
+      }
+    }
+  };
+};
+
+export const startDeleteEvent = (): AppThunk => {
+  return async (dispatch: Dispatch, getState) => {
+    const { id } = getState().calendar.activeEvent as IActiveEvent;
+
+    try {
+      await calendarApi.delete(`${EVENTS}/${id}`);
+      dispatch(calendar.onDeleteEvent());
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         fn.showError(err.response!);
