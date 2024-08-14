@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
+## Calendar Event Management Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application allows users to create, view, and manage calendar events. Users can specify details such as title, description, additional information, and date/time for the events. The calendar provides a visual representation of the scheduled events, helping users to keep track of their tasks and meetings.
 
-Currently, two official plugins are available:
+### Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Create new events with detailed information
+- View events in a monthly calendar format
+- Edit and delete events
+- Responsive design for various screen sizes
 
-## Expanding the ESLint configuration
+### Event Form
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Users can add new events by filling out the form with the following fields:
 
-- Configure the top-level `parserOptions` property like this:
+- **Title and description**: Brief information about the event
+- **Additional information**: Any extra details that might be relevant
+- **Since date/time**: Start date and time of the event
+- **Until date/time**: End date and time of the event
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### Calendar View
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+The calendar view provides a monthly layout of all scheduled events, allowing users to see their commitments at a glance. Events are color-coded and display the event title and description on the respective dates.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
+![Calendar View](./app-preview.png)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
-```
+### Usage
+
+1. **Adding Events**:
+
+   - Click on the "New Event" button to open the event form.
+   - Fill in the event details and click "Save" to add the event to the calendar.
+
+2. **Viewing Events**:
+
+   - Events are displayed on the calendar based on their start date and time.
+   - Hover over or click on an event to see more details.
+
+3. **Editing and Deleting Events**:
+   - Click on an event to open its details.
+   - Use the edit button to modify the event details.
+   - Use the delete button to remove the event from the calendar.
+
+### Installation
+
+To set up the application locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/calendar-app-frontent.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd calendar-app
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the application:
+   ```bash
+   npm start
+   ```
+
+### Contributions
+
+Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
+
+### License
+
+This project is licensed under the MIT License.
