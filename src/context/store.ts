@@ -1,11 +1,7 @@
-import {
-  Action,
-  configureStore,
-  ThunkAction,
-} from '@reduxjs/toolkit';
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
-/* Reducers */
-import { authSlice, uiSlice, calendarSlice } from './index';
+import { authSlice } from '../apps/Auth/context';
+import { calendarSlice, uiSlice } from '../apps/Calendar/context';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +9,8 @@ const store = configureStore({
     ui: uiSlice.reducer,
     calendar: calendarSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;
