@@ -6,8 +6,14 @@ import { parseISO } from 'date-fns';
 /* Interfaces */
 import { IEvent } from '../apps/Calendar/interfaces';
 
+interface ISessionTokenResponse {
+  headers: {
+    Authorization: string;
+  };
+}
+
 export const showError = (resp: AxiosResponse): void => {
-  Swal.fire('Error', resp!.data.msg, 'error');
+  Swal.fire('Error', resp!.data.error, 'error');
 };
 
 export const convertEventTimesToDates = (events: IEvent[]): IEvent[] => {
@@ -16,4 +22,17 @@ export const convertEventTimesToDates = (events: IEvent[]): IEvent[] => {
     start: parseISO(event.start.toString()),
     end: parseISO(event.end.toString()),
   }));
+};
+
+/**
+ * Return a HTTP header authorization token.
+ */
+export const getSessionToken = (): ISessionTokenResponse => {
+  return {
+    headers: {
+      Authorization: `Bearer ${
+        localStorage.getItem('x-token') ?? 'INVALID_TOKEN'
+      }`,
+    },
+  };
 };

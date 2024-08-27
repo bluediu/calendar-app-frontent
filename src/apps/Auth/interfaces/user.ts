@@ -1,15 +1,13 @@
-// TODO: Fix properties inconsistencies
-export interface IUser {
-  ok: boolean;
-  uid: string;
+export interface IRenewResponse {
+  id: string;
   name: string;
   token: string;
 }
 
-export interface ISignInResponse {
+export interface IAuthResponse {
   token: string;
   user: {
-    _id: string;
+    id: string;
     name: string;
     email: string;
   };

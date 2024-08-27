@@ -9,7 +9,7 @@ calendarApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = localStorage.getItem('x-token');
 
   if (token) {
-    config.headers.set('x-token', token);
+    config.headers.set('Authorization', `Bearer ${token}`);
   }
 
   return config;

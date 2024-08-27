@@ -12,12 +12,7 @@ import calendarApi from '../../api/api';
 import { AppThunk } from '../../../../context/store';
 
 /* Interfaces */
-import {
-  IActiveEvent,
-  IEvent,
-  IEventResponse,
-  IEventsResponse,
-} from '../../interfaces';
+import { IActiveEvent, IEvent } from '../../interfaces';
 
 /* Types */
 import { IAuthUser } from '../../../Auth/types';
@@ -30,8 +25,8 @@ const EVENTS = '/events';
 export const startLoadingEvents = (): AppThunk => {
   return async (dispatch: Dispatch) => {
     try {
-      const { data } = await calendarApi.get<IEventsResponse>(EVENTS);
-      const events: IEvent[] = fn.convertEventTimesToDates(data.events);
+      const { data } = await calendarApi.get<IEvent[]>(`${EVENTS}/list`);
+      const events: IEvent[] = fn.convertEventTimesToDates(data);
 
       dispatch(calendar.onLoadingEvents(events));
     } catch (err: unknown) {
@@ -53,14 +48,14 @@ export const startActionEvent = (event: Omit<IEvent, 'user'>): AppThunk => {
     try {
       // On update
       if (event.id) {
-        await calendarApi.put(`${EVENTS}/${event.id}`, event);
+        await calendarApi.put<IEvent>(`${EVENTS}/update/${event.id}`, event);
 
         return dispatch(calendar.onUpdateEvent({ ...event, user }));
       }
 
       // On create
       const newEvent = { ...event, user: _id };
-      const { data } = await calendarApi.post<IEventResponse>(
+      const { data } = await calendarApi.post<IEvent>(
         `${EVENTS}/create`,
         newEvent
       );
@@ -68,7 +63,7 @@ export const startActionEvent = (event: Omit<IEvent, 'user'>): AppThunk => {
       return dispatch(
         calendar.onAddEvent({
           ...newEvent,
-          id: data.event.id,
+          id: data.id,
           user,
         })
       );
@@ -85,7 +80,7 @@ export const startDeleteEvent = (): AppThunk => {
     const { id } = getState().calendar.activeEvent as IActiveEvent;
 
     try {
-      await calendarApi.delete(`${EVENTS}/${id}`);
+      await calendarApi.delete(`${EVENTS}/delete/${id}`);
       dispatch(calendar.onDeleteEvent());
     } catch (err: unknown) {
       if (err instanceof AxiosError) {

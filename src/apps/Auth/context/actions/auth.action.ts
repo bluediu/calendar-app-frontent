@@ -12,7 +12,12 @@ import { AppThunk } from '../../../../context/store';
 import { authApi } from '../../api';
 
 /* Interfaces */
-import { ILogin, IRegister, ISignInResponse, IUser } from '../../interfaces';
+import {
+  ILogin,
+  IRegister,
+  IAuthResponse,
+  IRenewResponse,
+} from '../../interfaces';
 
 /* Utils */
 import { fn } from '../../../../utils';
@@ -29,12 +34,14 @@ export const startLogin = (props: ILogin): AppThunk => {
   return async (dispatch: Dispatch) => {
     dispatch(onChecking());
     try {
-      const { data } = await authApi.post<IUser>('/login', props);
+      const { data } = await authApi.post<IAuthResponse>('/login', props);
       _saveToken(data.token);
-      console.log(data);
 
-      dispatch(onLogin({ _id: data.uid, name: data.name }));
+      const { id: _id, name } = data.user!;
+      dispatch(onLogin({ _id, name }));
     } catch (err: unknown) {
+      console.log(err);
+
       if (err instanceof AxiosError) {
         fn.showError(err.response!);
         dispatch(onLogout('Invalid credentials'));
@@ -47,10 +54,10 @@ export const startSignIn = (props: IRegister) => {
   return async (dispatch: Dispatch) => {
     dispatch(onChecking());
     try {
-      const { data } = await authApi.post<ISignInResponse>('/signin', props);
+      const { data } = await authApi.post<IAuthResponse>('/sign-in', props);
       _saveToken(data.token);
 
-      const { _id, name } = data.user;
+      const { id: _id, name } = data.user!;
       dispatch(onLogin({ _id, name }));
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
@@ -68,12 +75,13 @@ export const startRenewToken = () => {
     if (!token) return dispatch(onLogout());
 
     try {
-      const { data } = await authApi.get<IUser>('/renew', {
-        headers: { 'x-token': token },
-      });
+      const { data } = await authApi.get<IRenewResponse>(
+        '/renew-token',
+        fn.getSessionToken()
+      );
       _saveToken(data.token);
 
-      dispatch(onLogin({ _id: data.uid, name: data.name }));
+      dispatch(onLogin({ _id: data.id, name: data.name }));
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         fn.showError(err.response!);
