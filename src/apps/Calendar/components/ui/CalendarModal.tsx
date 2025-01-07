@@ -103,6 +103,8 @@ export const CalendarModal = () => {
     setSubmitting(false);
   };
 
+  const canChange = !isUserAuthorized && initialValues.title;
+
   return (
     // @ts-ignore
     <Modal
@@ -128,7 +130,7 @@ export const CalendarModal = () => {
               <label>Title and description</label>
               <Field
                 type="text"
-                disabled={!isUserAuthorized}
+                disabled={canChange}
                 className={`form-control`}
                 placeholder=""
                 autoComplete="off"
@@ -144,7 +146,7 @@ export const CalendarModal = () => {
             <section className="form-group mb-2">
               <Field
                 as="textarea"
-                disabled={!isUserAuthorized}
+                disabled={canChange}
                 className="form-control"
                 rows={5}
                 name="notes"
@@ -161,7 +163,7 @@ export const CalendarModal = () => {
                 Since date/time
               </label>
               <DatePicker
-                disabled={!isUserAuthorized}
+                disabled={canChange as boolean}
                 selected={values.start}
                 onChange={(date) => setFieldValue('start', date)}
                 className="form-control"
@@ -180,7 +182,7 @@ export const CalendarModal = () => {
                 Until date/time
               </label>
               <DatePicker
-                disabled={!isUserAuthorized}
+                disabled={canChange as boolean}
                 selected={values.end}
                 onChange={(date) => setFieldValue('end', date)}
                 className="form-control"
@@ -195,7 +197,7 @@ export const CalendarModal = () => {
               />
             </section>
 
-            {isUserAuthorized && (
+            {!canChange && (
               <div className="d-grid gap-2">
                 <button
                   type="submit"
