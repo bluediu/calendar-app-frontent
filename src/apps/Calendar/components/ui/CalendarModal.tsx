@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useEffect, useState } from 'react';
 
 /* Libs */
@@ -11,6 +12,7 @@ import DatePicker from 'react-datepicker';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
 /* Hooks */
+import { useUserAuthorization } from '../../hooks';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 
 import {
@@ -60,6 +62,8 @@ export const CalendarModal = () => {
   const { isDateModalOpen } = useAppSelector((state) => state.ui);
   const { activeEvent } = useAppSelector((state) => state.calendar);
 
+  const isUserAuthorized = useUserAuthorization();
+
   const [initialValues, setInitialValues] = useState<IValues>({
     title: '',
     notes: '',
@@ -100,6 +104,7 @@ export const CalendarModal = () => {
   };
 
   return (
+    // @ts-ignore
     <Modal
       isOpen={isDateModalOpen}
       onRequestClose={onCloseModal}
@@ -123,6 +128,7 @@ export const CalendarModal = () => {
               <label>Title and description</label>
               <Field
                 type="text"
+                disabled={!isUserAuthorized}
                 className={`form-control`}
                 placeholder=""
                 autoComplete="off"
@@ -138,6 +144,7 @@ export const CalendarModal = () => {
             <section className="form-group mb-2">
               <Field
                 as="textarea"
+                disabled={!isUserAuthorized}
                 className="form-control"
                 rows={5}
                 name="notes"
@@ -154,6 +161,7 @@ export const CalendarModal = () => {
                 Since date/time
               </label>
               <DatePicker
+                disabled={!isUserAuthorized}
                 selected={values.start}
                 onChange={(date) => setFieldValue('start', date)}
                 className="form-control"
@@ -172,6 +180,7 @@ export const CalendarModal = () => {
                 Until date/time
               </label>
               <DatePicker
+                disabled={!isUserAuthorized}
                 selected={values.end}
                 onChange={(date) => setFieldValue('end', date)}
                 className="form-control"
@@ -186,16 +195,18 @@ export const CalendarModal = () => {
               />
             </section>
 
-            <div className="d-grid gap-2">
-              <button
-                type="submit"
-                className="btn btn-secondary mt-3"
-                disabled={isSubmitting}
-              >
-                <i className="far fa-save"></i>
-                <span> Save</span>
-              </button>
-            </div>
+            {isUserAuthorized && (
+              <div className="d-grid gap-2">
+                <button
+                  type="submit"
+                  className="btn btn-secondary mt-3"
+                  disabled={isSubmitting}
+                >
+                  <i className="far fa-save"></i>
+                  <span> Save</span>
+                </button>
+              </div>
+            )}
           </Form>
         )}
       </Formik>

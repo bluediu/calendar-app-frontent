@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useEffect, useState } from 'react';
 
 /* Context */
@@ -71,6 +72,8 @@ export const CalendarPage = () => {
   return (
     <>
       <Navbar />
+
+      {/* @ts-ignore */}
       <Calendar
         culture="English"
         localizer={localizer}

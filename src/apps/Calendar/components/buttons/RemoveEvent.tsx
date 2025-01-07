@@ -2,17 +2,21 @@
 import { startDeleteEvent } from '../../context';
 
 /* Hooks */
-import { useAppDispatch, useAppSelector } from '../../../../hooks';
+import { useAppDispatch } from '../../../../hooks';
+import { useUserAuthorization } from '../../hooks';
 
 export const RemoveEvent = () => {
   const dispatch = useAppDispatch();
-  const selectedEvent = useAppSelector((state) => state.calendar.activeEvent);
 
   const onDelete = () => dispatch(startDeleteEvent());
 
+  const isUserAuthorized = useUserAuthorization();
+
   return (
     <button
-      className={`btn btn-danger fab-danger ${selectedEvent ? '' : 'd-none'}`}
+      className={`btn btn-danger fab-danger ${
+        isUserAuthorized ? '' : 'd-none'
+      }`}
       onClick={onDelete}
     >
       <i className="fas fa-trash-alt"></i>
